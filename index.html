@@ -42,4 +42,51 @@
         </div>
         <div data-role="footer" id="footer">&copy; 2020 by Kateryna Bigun</div>
     </div>
+</body> 
+
+<script>
+    let url = "http://newsapi.org/v2/everything?q=bitcoin&from=2020-07-28&sortBy=publishedAt&apiKey=" + key;
+    let out = "";
+    let articles = [];
+    $.getJSON(url, finction(data)){
+        console.log(data);
+        articles = data.articles;
+        for(let X = 0; x < articles.length; x++) {
+            displayStory(articles[x],x);
+            $("#storyList").html(out);
+            $("#storyList").listview("refresh");
+        }
+    };
+
+function displayStory(story, storyNum) {
+    const number = storyNum;
+    const title = story.title;
+    const source = story.source.name;
+    const image = story.urlToImage;
+    const storyTime = story.publishedAt;
+    const description = story.description;
+
+    out += "<li onclick='populateDetail'(" + number + ") class='wrap'>";
+    out += "<a href='#detail'>";
+    out += "<img src='" + image + "'/>";
+    out += "<strong>" + title + "</strong>";
+    out += "<br/>" + storyTime + " | " + source;
+    out += "<p class='wrap'>" + description + "</p>";
+    out += "</a></li>";
+}
+
+function populateDetail(storyNum) {
+    const story = articles[storyNum];
+    console.log(story);
+    $('#detTitle').html("<h1>" + story.title + "</h1>");
+    $('#detInfo').html(story.source.name + " | " + story.publishedAt);
+    $('#detImg').html("<img src=" + story.urlToImage + "'/>");
+    $('#detStory').html("<p>" + story.content + "</p>");
+    $('#fullStoryLink').html("<a href='" + story.url + "'>FullStory</a>");
+
+}
+
+</script>
+
 </body>
+</html>
